@@ -1,6 +1,6 @@
-# 🧠 NCAS — Núcleo Cognitivo da Aurora Siger
+#  NCAS — Núcleo Cognitivo da Aurora Siger
 
-## 📌 Sobre o projeto
+##  Sobre o projeto
 
 O **NCAS (Núcleo Cognitivo da Aurora Siger)** é um protótipo desenvolvido em Python para auxiliar no gerenciamento e na interpretação de informações operacionais de uma colônia espacial.
 
@@ -10,7 +10,7 @@ O projeto foi desenvolvido como parte da atividade integradora da **Aurora Siger
 
 ---
 
-## 🎯 Objetivos
+##  Objetivos
 
 O projeto tem como principais objetivos:
 
@@ -26,7 +26,7 @@ O projeto tem como principais objetivos:
 
 ---
 
-## ⚙️ Funcionalidades
+##  Funcionalidades
 
 O sistema possui um menu interativo no terminal com as seguintes opções:
 
@@ -88,7 +88,7 @@ Não é necessária uma API externa de inteligência artificial para executar o 
 
 ---
 
-## 🗂️ Estrutura dos arquivos
+##  Estrutura dos arquivos
 
 ```text
 NCAS_Aurora_Siger/
@@ -118,7 +118,7 @@ link_video.txt
 
 ---
 
-## 💾 Armazenamento de dados
+##  Armazenamento de dados
 
 O projeto utiliza dois formatos principais de armazenamento.
 
@@ -157,7 +157,7 @@ O arquivo `registros_colonia.txt` funciona como um registro de eventos do sistem
 
 ---
 
-## 🧠 Lógica Booleana
+##  Lógica Booleana
 
 A regra utilizada pelo NCAS é:
 
@@ -193,7 +193,7 @@ A simplificação mantém o mesmo resultado lógico da expressão original, mas 
 
 ---
 
-## 🤖 Engenharia de Prompts
+##  Engenharia de Prompts
 
 O projeto utiliza diferentes técnicas de engenharia de prompts.
 
@@ -241,7 +241,7 @@ A resposta pode ser organizada em JSON:
 
 ---
 
-## 🧮 Otimização
+##  Otimização
 
 Uma das melhorias implementadas no projeto é a simplificação da regra lógica.
 
@@ -263,7 +263,7 @@ Também é utilizada uma estrutura organizada de saída para facilitar a interpr
 
 ---
 
-## 💾 Memória e armazenamento
+##  Memória e armazenamento
 
 O fluxo de dados do sistema pode ser representado da seguinte forma:
 
@@ -289,7 +289,7 @@ Os arquivos permitem que as informações continuem disponíveis mesmo depois qu
 
 ---
 
-## ⚖️ Ética e responsabilidade
+##  Ética e responsabilidade
 
 O NCAS também considera aspectos relacionados ao uso responsável da inteligência artificial.
 
@@ -305,7 +305,7 @@ No contexto do NCAS, a inteligência artificial simulada funciona como uma ferra
 
 ---
 
-## ▶️ Como executar
+##  Como executar
 
 ### Requisitos
 
@@ -340,7 +340,7 @@ Escolha uma opção digitando o número correspondente.
 
 ---
 
-## 🎥 Apresentação
+##  Apresentação
 
 A apresentação do projeto deve demonstrar o funcionamento do sistema, incluindo:
 
@@ -365,7 +365,7 @@ link_video.txt
 
 ---
 
-## 👥 Equipe
+##  Equipe
 
 **Aurora Siger — NCAS**
 
@@ -373,7 +373,7 @@ Projeto desenvolvido para a atividade integradora.
 
 ---
 
-## 📚 Tecnologias utilizadas
+##  Tecnologias utilizadas
 
 * Python
 * JSON
@@ -384,7 +384,7 @@ Projeto desenvolvido para a atividade integradora.
 
 ---
 
-## 🚀 Conclusão
+##  Conclusão
 
 O NCAS demonstra como conceitos de programação, armazenamento de dados, lógica booleana e engenharia de prompts podem ser integrados em um único sistema.
 
