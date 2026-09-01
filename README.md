@@ -1,5 +1,3 @@
-# IA_No_Controle
-
 # 🧠 NCAS — Núcleo Cognitivo da Aurora Siger
 
 ## 📌 Sobre o projeto
