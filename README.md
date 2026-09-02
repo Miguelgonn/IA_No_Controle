@@ -67,6 +67,8 @@ Exemplo de estrutura esperada em `alertas.json`:
 
 **Regra de negócio:** um alerta deve ser classificado como **crítico** se a ocorrência for uma falha E (o módulo estiver com prioridade alta OU o módulo for de suporte de vida).
 
+``` CRÍTICO = FALHA AND (PRIORIDADE_ALTA OR SUPORTE_DE_VIDA) ```
+
 ## 6. Prompts Estruturados (simulação de IA generativa)
 
 O assistente é simulado pela função `gerar_resposta_simulada()`, que interpreta palavras-chave da pergunta (nome de módulo ou a palavra "alerta") e responde com base nos dados atuais salvos em JSON — sem uso de IA real, apenas lógica condicional, conforme permitido pela atividade.
