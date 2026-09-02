@@ -40,9 +40,7 @@
       "nivel_oxigenio_pct": 97.8,
       "ultima_manutencao": "2026-08-10"
     }
-  ]
-}
-{
+  ],
   "alertas": [
     {
       "id": "ALT-001",
@@ -67,10 +65,16 @@
       "prioridade": "baixa",
       "data_registro": "2026-08-30",
       "mensagem": "Antena principal entrará em manutenção preventiva às 06h00."
+    },
+    {
+      "id": "ALT-004",
+      "modulo": "Geração de Energia",
+      "tipo_ocorrencia": "falha",
+      "prioridade": "critica",
+      "data_registro": "2026-08-31",
+      "mensagem": "Falha detectada no módulo de energia."
     }
-  ]
-}
-{
+  ],
   "solicitacoes": [
     {
       "id": "SOL-001",
@@ -99,9 +103,7 @@
       "status": "em_andamento",
       "data_solicitacao": "2026-08-30"
     }
-  ]
-}
-{
+  ],
   "interacoes": [
     {
       "id": "INT-001",
@@ -125,31 +127,4 @@
       "data_hora": "2026-08-30 09:47"
     }
   ]
-}
-{
-    "modulos": [
-        {
-            "nome": "Energia",
-            "status": "ativo"
-        },
-        {
-            "nome": "Oxigenio",
-            "status": "ativo"
-        },
-        {
-            "nome": "Comunicacao",
-            "status": "ativo"
-        }
-    ],
-    "alertas": [
-        {
-            "id": 1,
-            "data": "31/08/2026 20:00",
-            "modulo": "Energia",
-            "tipo": "falha",
-            "prioridade": "critica",
-            "mensagem": "Falha detectada no mÃ³dulo de energia."
-        }
-    ],
-    "solicitacoes": []
 }
