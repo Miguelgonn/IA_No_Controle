@@ -1,3 +1,12 @@
+## 👥 Equipe
+
+| Nome | RM |
+|------|----|
+| Ana Gabriela     | rm571312 |
+| Kaique           | rm570533 |
+| Miguel Antunes   | rm573643 |
+| Miguel Gonçalves | rm573793 |
+
 # Núcleo Cognitivo da Aurora Siger (NCAS)
 
 Protótipo desenvolvido para a Atividade Integradora, responsável por registrar, organizar, consultar e interpretar informações operacionais de uma colônia espacial fictícia — a *Aurora Siger*. O sistema roda em terminal, com menu interativo, e utiliza arquivos texto e JSON como forma de armazenamento persistente.
