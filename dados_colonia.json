@@ -4,79 +4,152 @@
       "id": "MOD-01",
       "nome": "Suporte de Vida",
       "status": "operacional",
+      "temperatura_c": 21.4,
+      "nivel_oxigenio_pct": 98.2,
       "ultima_manutencao": "2026-08-15"
     },
     {
       "id": "MOD-02",
-      "nome": "Energia",
+      "nome": "Geração de Energia",
       "status": "operacional",
-      "ultima_manutencao": "2026-07-30"
+      "temperatura_c": 34.7,
+      "nivel_oxigenio_pct": null,
+      "ultima_manutencao": "2026-08-20"
     },
     {
       "id": "MOD-03",
-      "nome": "Cultivo",
-      "status": "em manutencao",
-      "ultima_manutencao": "2026-08-28"
+      "nome": "Purificação de Água",
+      "status": "em_alerta",
+      "temperatura_c": 19.1,
+      "nivel_oxigenio_pct": null,
+      "ultima_manutencao": "2026-07-30"
     },
     {
       "id": "MOD-04",
-      "nome": "Comunicacoes",
+      "nome": "Estufa Hidropônica",
       "status": "operacional",
-      "ultima_manutencao": "2026-06-10"
+      "temperatura_c": 24.9,
+      "nivel_oxigenio_pct": 96.5,
+      "ultima_manutencao": "2026-08-25"
+    },
+    {
+      "id": "MOD-05",
+      "nome": "Comunicações",
+      "status": "manutencao_programada",
+      "temperatura_c": 22.0,
+      "nivel_oxigenio_pct": 97.8,
+      "ultima_manutencao": "2026-08-10"
     }
-  ],
+  ]
+}
+{
   "alertas": [
     {
       "id": "ALT-001",
-      "modulo": "Suporte de Vida",
-      "tipo_ocorrencia": "Consumo elevado de oxigenio",
+      "modulo": "Purificação de Água",
+      "tipo_ocorrencia": "queda_de_pressao",
       "prioridade": "alta",
-      "data_registro": "2026-08-30",
-      "mensagem": "Consumo de O2 acima do limite operacional no setor B."
+      "data_registro": "2026-08-29",
+      "mensagem": "Pressão do filtro primário 15% abaixo do limite seguro."
     },
     {
       "id": "ALT-002",
-      "modulo": "Cultivo",
-      "tipo_ocorrencia": "Falha em sensor de umidade",
+      "modulo": "Geração de Energia",
+      "tipo_ocorrencia": "sobrecarga_temperatura",
       "prioridade": "media",
-      "data_registro": "2026-08-28",
-      "mensagem": "Sensor de umidade apresentando leituras inconsistentes."
+      "data_registro": "2026-08-27",
+      "mensagem": "Temperatura do núcleo de fusão acima da média por 3 ciclos consecutivos."
+    },
+    {
+      "id": "ALT-003",
+      "modulo": "Comunicações",
+      "tipo_ocorrencia": "manutencao_programada",
+      "prioridade": "baixa",
+      "data_registro": "2026-08-30",
+      "mensagem": "Antena principal entrará em manutenção preventiva às 06h00."
     }
-  ],
+  ]
+}
+{
   "solicitacoes": [
     {
       "id": "SOL-001",
-      "tripulante": "Ana Reis",
-      "modulo_relacionado": "Cultivo",
-      "tipo_solicitacao": "manutencao",
-      "descricao": "Solicito troca do sensor de umidade do setor de cultivo.",
+      "tripulante": "Eng. Marina Alves",
+      "modulo_relacionado": "Purificação de Água",
+      "tipo_solicitacao": "diagnostico_tecnico",
+      "descricao": "Solicito diagnóstico completo do filtro primário após alerta ALT-001.",
       "status": "pendente",
       "data_solicitacao": "2026-08-29"
     },
     {
       "id": "SOL-002",
-      "tripulante": "Bruno Alves",
-      "modulo_relacionado": "Comunicacoes",
-      "tipo_solicitacao": "verificacao",
-      "descricao": "Pedido de verificacao do sinal de longo alcance.",
-      "status": "pendente",
-      "data_solicitacao": "2026-08-31"
+      "tripulante": "Cmdt. Rafael Souza",
+      "modulo_relacionado": "Estufa Hidropônica",
+      "tipo_solicitacao": "relatorio_status",
+      "descricao": "Relatório semanal de produtividade das estufas.",
+      "status": "concluida",
+      "data_solicitacao": "2026-08-25"
+    },
+    {
+      "id": "SOL-003",
+      "tripulante": "Dra. Helena Cruz",
+      "modulo_relacionado": "Suporte de Vida",
+      "tipo_solicitacao": "ajuste_parametro",
+      "descricao": "Ajustar nível de oxigênio do setor médico para 99%.",
+      "status": "em_andamento",
+      "data_solicitacao": "2026-08-30"
     }
-  ],
+  ]
+}
+{
   "interacoes": [
     {
       "id": "INT-001",
-      "tripulante": "Ana Reis",
-      "pergunta": "Qual o status do modulo de cultivo?",
-      "resposta": "O modulo Cultivo esta com status 'em manutencao'. Ultima manutencao em 2026-08-28.",
-      "data_hora": "2026-08-30 09:15"
+      "tripulante": "Eng. Marina Alves",
+      "pergunta": "Qual o status atual do módulo de purificação de água?",
+      "resposta": "O módulo de Purificação de Água está em estado de alerta devido a queda de pressão no filtro primário (ALT-001).",
+      "data_hora": "2026-08-29 14:32"
     },
     {
       "id": "INT-002",
-      "tripulante": "Bruno Alves",
-      "pergunta": "Existe algum alerta ativo?",
-      "resposta": "O alerta mais recente e ALT-002 (media) no modulo Cultivo: Sensor de umidade apresentando leituras inconsistentes.",
-      "data_hora": "2026-08-30 09:20"
+      "tripulante": "Cmdt. Rafael Souza",
+      "pergunta": "Existe algum módulo em manutenção programada?",
+      "resposta": "Sim, o módulo de Comunicações está com manutenção programada para hoje às 06h00.",
+      "data_hora": "2026-08-30 08:10"
+    },
+    {
+      "id": "INT-003",
+      "tripulante": "Dra. Helena Cruz",
+      "pergunta": "O nível de oxigênio do Suporte de Vida está dentro do esperado?",
+      "resposta": "Sim, o nível atual é de 98.2%, dentro da faixa segura.",
+      "data_hora": "2026-08-30 09:47"
     }
   ]
+}
+{
+    "modulos": [
+        {
+            "nome": "Energia",
+            "status": "ativo"
+        },
+        {
+            "nome": "Oxigenio",
+            "status": "ativo"
+        },
+        {
+            "nome": "Comunicacao",
+            "status": "ativo"
+        }
+    ],
+    "alertas": [
+        {
+            "id": 1,
+            "data": "31/08/2026 20:00",
+            "modulo": "Energia",
+            "tipo": "falha",
+            "prioridade": "critica",
+            "mensagem": "Falha detectada no mÃ³dulo de energia."
+        }
+    ],
+    "solicitacoes": []
 }
