@@ -1,391 +1,173 @@
-#  NCAS — Núcleo Cognitivo da Aurora Siger
+# Núcleo Cognitivo da Aurora Siger (NCAS)
 
-##  Sobre o projeto
+Protótipo desenvolvido para a Atividade Integradora, responsável por registrar, organizar, consultar e interpretar informações operacionais de uma colônia espacial fictícia — a *Aurora Siger*. O sistema roda em terminal, com menu interativo, e utiliza arquivos texto e JSON como forma de armazenamento persistente.
 
-O **NCAS (Núcleo Cognitivo da Aurora Siger)** é um protótipo desenvolvido em Python para auxiliar no gerenciamento e na interpretação de informações operacionais de uma colônia espacial.
+## 1. Descrição Geral
 
-O sistema permite **registrar, armazenar, consultar e analisar informações**, utilizando arquivos de texto, arquivos JSON, regras de lógica booleana e prompts estruturados para simular uma interação com um assistente inteligente.
+O NCAS simula o núcleo cognitivo de controle de uma colônia espacial. Ele permite:
 
-O projeto foi desenvolvido como parte da atividade integradora da **Aurora Siger**.
+- Consultar e atualizar o status dos módulos da colônia;
+- Registrar e visualizar alertas operacionais;
+- Registrar e visualizar solicitações da tripulação;
+- Registrar ocorrências técnicas de manutenção;
+- Consultar um histórico de interações com um assistente simulado;
+- Fazer perguntas a um assistente cognitivo simplificado, que responde com base nos dados salvos;
+- Consultar logs de acesso ao sistema.
 
----
+Todas as ações relevantes (registro de alertas, manutenções, solicitações, interações, atualização de status) geram automaticamente uma entrada no log de acesso, garantindo rastreabilidade das operações.
 
-##  Objetivos
+## 2. Estrutura de Arquivos do Projeto
 
-O projeto tem como principais objetivos:
+| Arquivo | Tipo | Conteúdo |
+|---|---|---|
+| `modulos_colonia.json` | JSON | Status dos módulos da colônia |
+| `alertas.json` | JSON | Alertas operacionais registrados |
+| `solicitacoes_tripulacao.json` | JSON | Pedidos feitos pela tripulação |
+| `interacoes.json` | JSON | Histórico de perguntas e respostas do assistente |
+| `registros_manutencao.txt` | Texto | Log cronológico de ocorrências técnicas |
+| `logs_acesso.txt` | Texto | Log cronológico de ações realizadas no sistema |
 
-* Registrar informações operacionais da colônia;
-* Armazenar dados utilizando arquivos `.txt` e `.json`;
-* Consultar informações previamente armazenadas;
-* Utilizar regras de lógica booleana para tomada de decisão;
-* Aplicar simplificação de expressões lógicas;
-* Criar prompts utilizando técnicas de engenharia de prompts;
-* Simular respostas de um assistente inteligente;
-* Demonstrar conceitos de memória, armazenamento e fluxo de dados;
-* Refletir sobre ética, diversidade e responsabilidade no uso de IA.
+### Por que JSON e por que TXT?
 
----
+- **JSON** foi usado para dados que têm **estrutura, campos fixos e precisam ser consultados/atualizados por identificador** (ex.: buscar o módulo `MOD-01` e alterar seu status, ou listar todos os alertas de prioridade alta). Isso exige dicionários com chaves nomeadas, o que o JSON representa naturalmente.
+- **Texto (TXT)** foi usado para dados que são essencialmente **sequenciais e cronológicos, apenas para leitura em ordem** (manutenções e logs de acesso). Não é necessário buscar por campo específico nem atualizar um registro antigo — apenas adicionar linhas novas (modo `a`, append) e exibi-las em sequência. Um TXT simples é suficiente e mais leve para esse caso.
 
-##  Funcionalidades
+## 3. Manipulação de Arquivos
 
-O sistema possui um menu interativo no terminal com as seguintes opções:
+O sistema centraliza a manipulação de arquivos em funções genéricas, reaproveitadas por todas as funcionalidades específicas:
 
-### 1. Cadastrar alerta operacional
+- `gravar_registro_texto()` — grava/sobrescreve um arquivo texto (`open(..., "w")`);
+- `ler_registro_texto()` — lê todo o conteúdo de um arquivo texto (`open(..., "r")`);
+- `adicionar_registro_texto()` — adiciona uma linha ao final de um arquivo (`open(..., "a")`);
+- `carregar_json()` — lê um arquivo JSON e retorna um dicionário/lista Python;
+- `salvar_json()` — salva um dicionário/lista Python em um arquivo JSON;
+- `exibir_dados()` — imprime na tela dados de texto ou estruturas JSON formatadas.
 
-Permite registrar um novo alerta informando:
+Todas as funções usam o gerenciador de contexto `with open(...) as arquivo:`, garantindo o fechamento correto do arquivo mesmo em caso de erro.
 
-* Módulo afetado;
-* Tipo de ocorrência;
-* Prioridade;
-* Descrição do problema.
+A partir dessas funções genéricas, o sistema implementa funcionalidades específicas do projeto, como `registrar_alerta()`, `registrar_manutencao()`, `atualizar_status_modulo()`, entre outras — cada uma decidindo *o quê* gravar, enquanto a lógica de *como* gravar fica isolada nas funções genéricas.
 
-Os dados são armazenados no arquivo `dados_colonia.json` e também registrados no arquivo `registros_colonia.txt`.
+## 4. Estrutura JSON (exemplo)
 
-### 2. Consultar alertas
-
-Exibe os alertas previamente registrados no sistema, recuperando as informações armazenadas no arquivo JSON.
-
-### 3. Cadastrar solicitação da tripulação
-
-Permite registrar solicitações realizadas pela tripulação, contendo:
-
-* Setor;
-* Pedido;
-* Nível de urgência;
-* Data do registro.
-
-### 4. Validação lógica
-
-O sistema analisa um alerta utilizando uma regra booleana.
-
-A regra utilizada é:
-
-```text
-ALERTA = (FALHA AND CRITICO) OR (FALHA AND NOT CRITICO)
-```
-
-Após a simplificação:
-
-```text
-ALERTA = FALHA
-```
-
-Dessa forma, o sistema consegue verificar se uma falha deve gerar um alerta operacional.
-
-### 5. Prompts estruturados
-
-O sistema apresenta exemplos de:
-
-* Zero-shot Prompting;
-* Few-shot Prompting;
-* Saída estruturada em JSON.
-
-### 6. Simulação de IA
-
-O projeto simula o funcionamento de um assistente inteligente utilizando regras e respostas predefinidas.
-
-Não é necessária uma API externa de inteligência artificial para executar o projeto.
-
----
-
-##  Estrutura dos arquivos
-
-```text
-NCAS_Aurora_Siger/
-│
-├── codigo_fonte.py
-├── dados_colonia.json
-├── registros_colonia.txt
-├── regras_logicas.txt
-├── prompts_utilizados.txt
-├── etica_diversidade.txt
-├── memoria_armazenamento.txt
-├── otimizacao.txt
-├── roteiro_video.txt
-└── link_video.txt
-```
-
-Na entrega final, os arquivos obrigatórios seguem a estrutura solicitada pela atividade:
-
-```text
-codigo_fonte.py
-dados_colonia.json
-registros_colonia.txt
-regras_logicas.pdf
-prompts_utilizados.pdf
-link_video.txt
-```
-
----
-
-##  Armazenamento de dados
-
-O projeto utiliza dois formatos principais de armazenamento.
-
-### JSON
-
-O arquivo `dados_colonia.json` é utilizado para armazenar informações estruturadas, como:
-
-* Módulos da colônia;
-* Alertas;
-* Solicitações da tripulação.
-
-Exemplo:
+Exemplo de estrutura esperada em `alertas.json`:
 
 ```json
 {
-    "modulos": [
-        {
-            "nome": "Energia",
-            "status": "ativo"
-        }
-    ],
-    "alertas": [
-        {
-            "id": 1,
-            "modulo": "Energia",
-            "tipo": "falha",
-            "prioridade": "critica"
-        }
-    ]
+  "alertas": [
+    {
+      "id": "ALT-001",
+      "modulo": "Suporte de Vida",
+      "tipo_ocorrencia": "Consumo elevado de oxigênio",
+      "prioridade": "alta",
+      "data_registro": "2026-09-01",
+      "mensagem": "Consumo de O2 acima do limite operacional no setor B."
+    }
+  ]
 }
 ```
 
-### TXT
+Estrutura equivalente é usada em `modulos_colonia.json` (lista de módulos com `id`, `nome`, `status`, `ultima_manutencao`), `solicitacoes_tripulacao.json` (pedidos com `id`, `tripulante`, `modulo_relacionado`, `tipo_solicitacao`, `descricao`, `status`, `data_solicitacao`) e `interacoes.json` (perguntas/respostas com `id`, `tripulante`, `pergunta`, `resposta`, `data_hora`).
 
-O arquivo `registros_colonia.txt` funciona como um registro de eventos do sistema, armazenando informações como alertas, solicitações e respostas simuladas.
+## 5. Regra Lógica e Simplificação Booleana
 
----
+**Regra de negócio:** um alerta deve ser classificado como **crítico** se a ocorrência for uma falha E (o módulo estiver com prioridade alta OU o módulo for de suporte de vida).
 
-##  Lógica Booleana
+Forma original:
 
-A regra utilizada pelo NCAS é:
-
-```text
-ALERTA = (FALHA AND CRITICO) OR (FALHA AND NOT CRITICO)
+```
+CRITICO = (FALHA AND PRIORIDADE_ALTA) OR (FALHA AND SUPORTE_VIDA)
 ```
 
-Aplicando a propriedade distributiva:
+Aplicando o **teorema da distributividade / fatoração** (equivalente ao processo inverso de De Morgan sobre um fator comum):
 
-```text
-ALERTA = FALHA AND (CRITICO OR NOT CRITICO)
+```
+CRITICO = FALHA AND (PRIORIDADE_ALTA OR SUPORTE_VIDA)
 ```
 
-Como:
+**Por que a simplificação mantém o mesmo resultado?** Nos dois casos, `CRITICO` só é verdadeiro quando existe uma `FALHA` **e** pelo menos uma das duas condições agravantes (`PRIORIDADE_ALTA` ou `SUPORTE_VIDA`) é verdadeira. A forma original testa a mesma condição duas vezes (uma para cada agravante), enquanto a forma simplificada extrai o fator comum `FALHA` e testa as duas condições agravantes juntas em um único `OR`. A tabela-verdade das duas expressões é idêntica; a versão simplificada apenas reduz o número de operações lógicas necessárias, tornando a implementação mais eficiente.
 
-```text
-CRITICO OR NOT CRITICO = VERDADEIRO
+> Essa regra pode ser plugada na função `registrar_alerta()` ou em uma nova função `analisar_alerta()`, marcando o alerta como crítico automaticamente antes de salvá-lo no JSON.
+
+## 6. Prompts Estruturados (simulação de IA generativa)
+
+O assistente é simulado pela função `gerar_resposta_simulada()`, que interpreta palavras-chave da pergunta (nome de módulo ou a palavra "alerta") e responde com base nos dados atuais salvos em JSON — sem uso de IA real, apenas lógica condicional, conforme permitido pela atividade.
+
+**Prompt zero-shot** (sem exemplos, direto ao ponto):
+```
+Resuma o alerta abaixo em até 2 frases, destacando módulo, prioridade e ação recomendada:
+{dados_do_alerta_em_json}
 ```
 
-Temos:
+**Prompt few-shot** (com exemplos para guiar o formato de resposta):
+```
+Classifique a solicitação da tripulação em uma das categorias: URGENTE, ROTINA ou INFORMATIVA.
 
-```text
-ALERTA = FALHA AND VERDADEIRO
+Exemplo 1:
+Solicitação: "Vazamento de ar no módulo de cultivo"
+Categoria: URGENTE
+
+Exemplo 2:
+Solicitação: "Solicito troca de filtro de água na próxima manutenção"
+Categoria: ROTINA
+
+Agora classifique:
+Solicitação: "{descricao_da_solicitacao}"
+Categoria:
 ```
 
-Portanto:
-
-```text
-ALERTA = FALHA
+**Prompt de saída estruturada (structured output)**:
 ```
+Gere a resposta padronizada para o centro de controle usando exatamente este formato JSON,
+sem texto adicional fora do JSON:
 
-A simplificação mantém o mesmo resultado lógico da expressão original, mas torna a regra mais simples e fácil de implementar.
-
----
-
-##  Engenharia de Prompts
-
-O projeto utiliza diferentes técnicas de engenharia de prompts.
-
-### Zero-shot
-
-O sistema fornece uma instrução sem apresentar exemplos anteriores.
-
-Exemplo:
-
-```text
-Analise o alerta operacional abaixo e produza uma resposta objetiva
-para o centro de controle. Identifique o problema, a prioridade e
-a ação recomendada.
-```
-
-### Few-shot
-
-O sistema apresenta exemplos de entradas e respostas antes de solicitar uma nova análise.
-
-Exemplo:
-
-```text
-Entrada:
-Falha no sistema de oxigênio. Prioridade: crítica.
-
-Saída:
-Risco crítico. Isolar o módulo e acionar a equipe de manutenção.
-
-Agora analise:
-Falha no módulo de energia. Prioridade: alta.
-```
-
-### Saída estruturada
-
-A resposta pode ser organizada em JSON:
-
-```json
 {
-    "problema": "Falha no módulo de energia",
-    "prioridade": "alta",
-    "acao_recomendada": "Verificar o módulo e acionar manutenção",
-    "status": "atenção"
+  "modulo": "",
+  "prioridade": "",
+  "resumo": "",
+  "acao_recomendada": ""
 }
+
+Dados do alerta: {dados_do_alerta}
 ```
 
----
+Esses prompts representam o que seria enviado a um modelo de linguagem real; no sistema atual, a mesma lógica é aproximada por `gerar_resposta_simulada()`.
 
-##  Otimização
+## 7. Memória, Armazenamento e Fluxo de Dados
 
-Uma das melhorias implementadas no projeto é a simplificação da regra lógica.
+Mesmo trabalhando apenas com Python e arquivos locais, os dados do NCAS não ficam "soltos": ao chamar `salvar_json()` ou `adicionar_registro_texto()`, o Python monta a estrutura em **memória RAM** e a função `open()` solicita ao sistema operacional a escrita física dos bytes em **disco** (armazenamento persistente). Quando o sistema é reiniciado, `carregar_json()`/`ler_registro_texto()` fazem o caminho inverso: os bytes do disco são lidos e trazidos de volta para a memória, reconstruindo dicionários e listas que o código Python pode manipular.
 
-A expressão:
+Esse fluxo (memória → processamento → escrita em disco → leitura posterior → memória novamente) é o que garante que um alerta registrado hoje continue disponível mesmo depois que o programa for encerrado e executado de novo — é a diferença entre dado volátil (só na RAM, perdido ao fechar o programa) e dado persistente (gravado em armazenamento físico).
 
-```text
-(FALHA AND CRITICO) OR (FALHA AND NOT CRITICO)
-```
+## 8. Diversidade, Ética e Responsabilidade
 
-pode ser reduzida para:
+O assistente do NCAS trabalha com respostas pré-definidas e dados objetivos dos módulos, mas isso não elimina o risco de viés: se os dados de entrada (descrições de alertas, classificações de prioridade) forem registrados por poucas pessoas ou com vocabulário tendencioso, o sistema pode reforçar interpretações injustas ao longo do tempo. Por isso, o projeto assume que:
 
-```text
-FALHA
-```
+- Decisões automatizadas (como classificar um alerta como crítico) devem sempre poder ser revisadas por um humano responsável;
+- A linguagem usada nas mensagens do sistema deve ser neutra e não discriminatória;
+- Equipes diversas tendem a identificar vieses e pontos cegos que um grupo homogêneo não perceberia, o que é especialmente importante em sistemas que afetam a segurança de uma tripulação;
+- A IA (real ou simulada) é uma ferramenta de apoio à decisão, e a responsabilidade final por ações críticas continua sendo humana.
 
-Isso diminui a quantidade de operações necessárias e facilita a compreensão e manutenção do código.
-
-Também é utilizada uma estrutura organizada de saída para facilitar a interpretação das respostas simuladas.
-
----
-
-##  Memória e armazenamento
-
-O fluxo de dados do sistema pode ser representado da seguinte forma:
-
-```text
-Entrada do usuário
-       ↓
-     Python
-       ↓
-     Memória
-       ↓
-Escrita no arquivo
-       ↓
-  Armazenamento
-       ↓
-Leitura dos dados
-       ↓
-Processamento
-       ↓
-Saída no terminal
-```
-
-Os arquivos permitem que as informações continuem disponíveis mesmo depois que o programa é encerrado.
-
----
-
-##  Ética e responsabilidade
-
-O NCAS também considera aspectos relacionados ao uso responsável da inteligência artificial.
-
-Sistemas inteligentes podem apresentar respostas enviesadas ou utilizar linguagem inadequada. Por isso, é importante considerar:
-
-* Diversidade durante o desenvolvimento;
-* Prevenção de linguagem discriminatória;
-* Possíveis vieses nas respostas;
-* Impactos de decisões automatizadas;
-* Responsabilidade humana.
-
-No contexto do NCAS, a inteligência artificial simulada funciona como uma ferramenta de apoio. A decisão final em situações críticas continua sendo responsabilidade dos operadores da colônia.
-
----
-
-##  Como executar
-
-### Requisitos
-
-* Python 3.x
-* Nenhuma biblioteca externa é necessária.
-
-### Execução
-
-Abra o terminal na pasta do projeto e execute:
+## 9. Como Executar
 
 ```bash
 python codigo_fonte.py
 ```
 
-O sistema apresentará um menu semelhante a:
+Não são necessárias bibliotecas externas — o projeto usa apenas módulos padrão do Python (`json`, `os`, `datetime`). Ao rodar, o menu interativo é exibido no terminal e os arquivos de dados (`.json` e `.txt`) são criados/atualizados automaticamente na mesma pasta do script conforme o uso.
 
-```text
-====================================
-   NCAS - AURORA SIGER
-====================================
+## 10. Menu de Funcionalidades
 
-1 - Cadastrar alerta operacional
-2 - Consultar alertas
-3 - Cadastrar solicitação da tripulação
-4 - Validar alerta com regra lógica
-5 - Exibir prompts estruturados
-6 - Simular resposta do assistente
-0 - Sair
 ```
-
-Escolha uma opção digitando o número correspondente.
-
----
-
-##  Apresentação
-
-A apresentação do projeto deve demonstrar o funcionamento do sistema, incluindo:
-
-1. Apresentação do NCAS;
-2. Dados armazenados;
-3. Leitura e gravação de arquivos;
-4. Funcionamento do JSON;
-5. Regra lógica e simplificação;
-6. Prompts;
-7. Simulação do assistente inteligente;
-8. Otimização;
-9. Ética e responsabilidade;
-10. Execução prática do sistema.
-
-O vídeo deve possuir no máximo **5 minutos** e ser publicado no YouTube como **"Não listado"**.
-
-O link da apresentação deve ser colocado no arquivo:
-
-```text
-link_video.txt
+ 1  - Ver status dos módulos
+ 2  - Atualizar status de um módulo
+ 3  - Ver alertas operacionais
+ 4  - Registrar novo alerta
+ 5  - Ver solicitações da tripulação
+ 6  - Registrar nova solicitação
+ 7  - Ver histórico de interações
+ 8  - Fazer uma pergunta ao assistente
+ 9  - Ver registros de manutenção
+10  - Registrar nova manutenção
+11  - Ver logs de acesso
+ 0  - Sair
 ```
-
----
-
-##  Equipe
-
-**Aurora Siger — NCAS**
-
-Projeto desenvolvido para a atividade integradora.
-
----
-
-##  Tecnologias utilizadas
-
-* Python
-* JSON
-* Arquivos TXT
-* Lógica Booleana
-* Engenharia de Prompts
-* Simulação de IA Generativa
-
----
-
-##  Conclusão
-
-O NCAS demonstra como conceitos de programação, armazenamento de dados, lógica booleana e engenharia de prompts podem ser integrados em um único sistema.
-
-O projeto permite que informações da colônia sejam registradas e recuperadas, além de utilizar regras lógicas e uma simulação de assistente inteligente para apoiar a interpretação de situações operacionais.
