@@ -1,1 +1,82 @@
-
+{
+  "modulos": [
+    {
+      "id": "MOD-01",
+      "nome": "Suporte de Vida",
+      "status": "operacional",
+      "ultima_manutencao": "2026-08-15"
+    },
+    {
+      "id": "MOD-02",
+      "nome": "Energia",
+      "status": "operacional",
+      "ultima_manutencao": "2026-07-30"
+    },
+    {
+      "id": "MOD-03",
+      "nome": "Cultivo",
+      "status": "em manutencao",
+      "ultima_manutencao": "2026-08-28"
+    },
+    {
+      "id": "MOD-04",
+      "nome": "Comunicacoes",
+      "status": "operacional",
+      "ultima_manutencao": "2026-06-10"
+    }
+  ],
+  "alertas": [
+    {
+      "id": "ALT-001",
+      "modulo": "Suporte de Vida",
+      "tipo_ocorrencia": "Consumo elevado de oxigenio",
+      "prioridade": "alta",
+      "data_registro": "2026-08-30",
+      "mensagem": "Consumo de O2 acima do limite operacional no setor B."
+    },
+    {
+      "id": "ALT-002",
+      "modulo": "Cultivo",
+      "tipo_ocorrencia": "Falha em sensor de umidade",
+      "prioridade": "media",
+      "data_registro": "2026-08-28",
+      "mensagem": "Sensor de umidade apresentando leituras inconsistentes."
+    }
+  ],
+  "solicitacoes": [
+    {
+      "id": "SOL-001",
+      "tripulante": "Ana Reis",
+      "modulo_relacionado": "Cultivo",
+      "tipo_solicitacao": "manutencao",
+      "descricao": "Solicito troca do sensor de umidade do setor de cultivo.",
+      "status": "pendente",
+      "data_solicitacao": "2026-08-29"
+    },
+    {
+      "id": "SOL-002",
+      "tripulante": "Bruno Alves",
+      "modulo_relacionado": "Comunicacoes",
+      "tipo_solicitacao": "verificacao",
+      "descricao": "Pedido de verificacao do sinal de longo alcance.",
+      "status": "pendente",
+      "data_solicitacao": "2026-08-31"
+    }
+  ],
+  "interacoes": [
+    {
+      "id": "INT-001",
+      "tripulante": "Ana Reis",
+      "pergunta": "Qual o status do modulo de cultivo?",
+      "resposta": "O modulo Cultivo esta com status 'em manutencao'. Ultima manutencao em 2026-08-28.",
+      "data_hora": "2026-08-30 09:15"
+    },
+    {
+      "id": "INT-002",
+      "tripulante": "Bruno Alves",
+      "pergunta": "Existe algum alerta ativo?",
+      "resposta": "O alerta mais recente e ALT-002 (media) no modulo Cultivo: Sensor de umidade apresentando leituras inconsistentes.",
+      "data_hora": "2026-08-30 09:20"
+    }
+  ]
+}
