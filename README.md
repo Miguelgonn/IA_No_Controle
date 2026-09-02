@@ -36,16 +36,13 @@ Todas as ações relevantes (registro de alertas, manutenções, solicitações,
 
 O sistema centraliza a manipulação de arquivos em funções genéricas, reaproveitadas por todas as funcionalidades específicas:
 
-- `gravar_registro_texto()` — grava/sobrescreve um arquivo texto (`open(..., "w")`);
-- `ler_registro_texto()` — lê todo o conteúdo de um arquivo texto (`open(..., "r")`);
-- `adicionar_registro_texto()` — adiciona uma linha ao final de um arquivo (`open(..., "a")`);
-- `carregar_json()` — lê um arquivo JSON e retorna um dicionário/lista Python;
-- `salvar_json()` — salva um dicionário/lista Python em um arquivo JSON;
-- `exibir_dados()` — imprime na tela dados de texto ou estruturas JSON formatadas.
+- `gravar_registro_texto()` — grava/sobrescreve um arquivo texto
+- `ler_registro_texto()` — lê todo o conteúdo de um arquivo texto 
+- `adicionar_registro_texto()` — adiciona uma linha ao final de um arquivo 
+- `carregar_json()` — lê um arquivo JSON e retorna um dicionário/lista Python
+- `salvar_json()` — salva um dicionário/lista Python em um arquivo JSON
+- `exibir_dados()` — imprime na tela dados de texto ou estruturas JSON formatadas
 
-Todas as funções usam o gerenciador de contexto `with open(...) as arquivo:`, garantindo o fechamento correto do arquivo mesmo em caso de erro.
-
-A partir dessas funções genéricas, o sistema implementa funcionalidades específicas do projeto, como `registrar_alerta()`, `registrar_manutencao()`, `atualizar_status_modulo()`, entre outras — cada uma decidindo *o quê* gravar, enquanto a lógica de *como* gravar fica isolada nas funções genéricas.
 
 ## 4. Estrutura JSON (exemplo)
 
@@ -66,39 +63,21 @@ Exemplo de estrutura esperada em `alertas.json`:
 }
 ```
 
-Estrutura equivalente é usada em `modulos_colonia.json` (lista de módulos com `id`, `nome`, `status`, `ultima_manutencao`), `solicitacoes_tripulacao.json` (pedidos com `id`, `tripulante`, `modulo_relacionado`, `tipo_solicitacao`, `descricao`, `status`, `data_solicitacao`) e `interacoes.json` (perguntas/respostas com `id`, `tripulante`, `pergunta`, `resposta`, `data_hora`).
-
 ## 5. Regra Lógica e Simplificação Booleana
 
 **Regra de negócio:** um alerta deve ser classificado como **crítico** se a ocorrência for uma falha E (o módulo estiver com prioridade alta OU o módulo for de suporte de vida).
-
-Forma original:
-
-```
-CRITICO = (FALHA AND PRIORIDADE_ALTA) OR (FALHA AND SUPORTE_VIDA)
-```
-
-Aplicando o **teorema da distributividade / fatoração** (equivalente ao processo inverso de De Morgan sobre um fator comum):
-
-```
-CRITICO = FALHA AND (PRIORIDADE_ALTA OR SUPORTE_VIDA)
-```
-
-**Por que a simplificação mantém o mesmo resultado?** Nos dois casos, `CRITICO` só é verdadeiro quando existe uma `FALHA` **e** pelo menos uma das duas condições agravantes (`PRIORIDADE_ALTA` ou `SUPORTE_VIDA`) é verdadeira. A forma original testa a mesma condição duas vezes (uma para cada agravante), enquanto a forma simplificada extrai o fator comum `FALHA` e testa as duas condições agravantes juntas em um único `OR`. A tabela-verdade das duas expressões é idêntica; a versão simplificada apenas reduz o número de operações lógicas necessárias, tornando a implementação mais eficiente.
-
-> Essa regra pode ser plugada na função `registrar_alerta()` ou em uma nova função `analisar_alerta()`, marcando o alerta como crítico automaticamente antes de salvá-lo no JSON.
 
 ## 6. Prompts Estruturados (simulação de IA generativa)
 
 O assistente é simulado pela função `gerar_resposta_simulada()`, que interpreta palavras-chave da pergunta (nome de módulo ou a palavra "alerta") e responde com base nos dados atuais salvos em JSON — sem uso de IA real, apenas lógica condicional, conforme permitido pela atividade.
 
-**Prompt zero-shot** (sem exemplos, direto ao ponto):
+**Prompt zero-shot** :
 ```
 Resuma o alerta abaixo em até 2 frases, destacando módulo, prioridade e ação recomendada:
 {dados_do_alerta_em_json}
 ```
 
-**Prompt few-shot** (com exemplos para guiar o formato de resposta):
+**Prompt few-shot** com exemplos para guiar o formato de resposta:
 ```
 Classifique a solicitação da tripulação em uma das categorias: URGENTE, ROTINA ou INFORMATIVA.
 
@@ -130,7 +109,6 @@ sem texto adicional fora do JSON:
 Dados do alerta: {dados_do_alerta}
 ```
 
-Esses prompts representam o que seria enviado a um modelo de linguagem real; no sistema atual, a mesma lógica é aproximada por `gerar_resposta_simulada()`.
 
 ## 7. Memória, Armazenamento e Fluxo de Dados
 
@@ -152,8 +130,6 @@ O assistente do NCAS trabalha com respostas pré-definidas e dados objetivos dos
 ```bash
 python codigo_fonte.py
 ```
-
-Não são necessárias bibliotecas externas — o projeto usa apenas módulos padrão do Python (`json`, `os`, `datetime`). Ao rodar, o menu interativo é exibido no terminal e os arquivos de dados (`.json` e `.txt`) são criados/atualizados automaticamente na mesma pasta do script conforme o uso.
 
 ## 10. Menu de Funcionalidades
 
